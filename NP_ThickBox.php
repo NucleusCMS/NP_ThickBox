@@ -83,7 +83,7 @@ class NP_ThickBox extends NucleusPlugin {
             echo 'var TB_ROOT_DIR = "'.$tb_root.'"';
             echo '</script>'."\n";
             echo '<link rel="stylesheet" href="'.$tb_root.'css/thickbox.css" type="text/css" media="screen" />'."\n";
-            echo '<script type="text/javascript" src="'.$tb_root.'js/jquery.js"></script>'."\n";
+            echo '<script type="text/javascript" src="'.$tb_root.'js/jquery.min.js"></script>'."\n";
             echo '<script type="text/javascript" src="'.$tb_root.'js/thickbox.js"></script>'."\n";
         }
         else {
