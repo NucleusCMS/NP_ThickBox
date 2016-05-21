@@ -213,10 +213,6 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 					jQuery("#TB_window").css({display:"block"});
 				}else if(url.indexOf('TB_iframe') != -1){
 					tb_position();
-					if(jQuery.browser.safari){//safari needs help because it will not fire iframe onload
-						jQuery("#TB_load").remove();
-						jQuery("#TB_window").css({display:"block"});
-					}
 				}else{
 					$("#TB_ajaxContent").load(url += "&random=" + (new Date().getTime()),function(){//to do a post change this load method
 						tb_position();
