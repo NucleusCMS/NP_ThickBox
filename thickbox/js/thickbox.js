@@ -162,7 +162,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 			tb_position();
 			jQuery("#TB_load").remove();
 			jQuery("#TB_ImageOff").click(tb_remove);
-			jQuery("#TB_window").css({display:"block"}); //for safari using css instead of show
+			jQuery("#TB_window").fadeIn();
 			};
 			
 			imgPreloader.src = url;
@@ -210,7 +210,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 					});
 					tb_position();
 					jQuery("#TB_load").remove();
-					jQuery("#TB_window").css({display:"block"});
+					jQuery("#TB_window").fadeIn();
 				}else if(url.indexOf('TB_iframe') != -1){
 					tb_position();
 				}else{
@@ -218,7 +218,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 						tb_position();
 						jQuery("#TB_load").remove();
 						tb_init("#TB_ajaxContent a.thickbox");
-						jQuery("#TB_window").css({display:"block"});
+						jQuery("#TB_window").fadeIn();
 					});
 				}
 			
@@ -245,7 +245,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 //helper functions below
 function tb_showIframe(){
 	jQuery("#TB_load").remove();
-	jQuery("#TB_window").css({display:"block"});
+	jQuery("#TB_window").fadeIn();
 }
 
 function tb_remove() {
