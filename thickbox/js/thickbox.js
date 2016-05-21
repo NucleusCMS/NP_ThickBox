@@ -36,11 +36,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 			jQuery("#TB_overlay").click(tb_remove);
 		}
 		
-		if(tb_detectMacXFF()){
-			jQuery("#TB_overlay").addClass("TB_overlayMacFFBGHack");//use png overlay so hide flash
-		}else{
-			jQuery("#TB_overlay").addClass("TB_overlayBG");//use background and opacity
-		}
+		jQuery("#TB_overlay").addClass("TB_overlayBG");//use background and opacity
 		
 		if(caption===null){caption="";}
 		jQuery("body").append("<div id='TB_load'><img src='"+imgLoader.src+"' /></div>");//add loader to the page
@@ -292,12 +288,3 @@ function tb_getPageSize(){
 	arrayPageSize = [w,h];
 	return arrayPageSize;
 }
-
-function tb_detectMacXFF() {
-  var userAgent = navigator.userAgent.toLowerCase();
-  if (userAgent.indexOf('mac') != -1 && userAgent.indexOf('firefox')!=-1) {
-    return true;
-  }
-}
-
-
