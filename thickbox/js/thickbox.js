@@ -4,13 +4,13 @@
  * Copyright (c) 2007 cody lindley
  * Licensed under the MIT License: http://www.opensource.org/licenses/mit-license.php
 */
-		  
+
 var tb_pathToImage = TB_ROOT_DIR+"images/loadingAnimation.gif";
 
 /*!!!!!!!!!!!!!!!!! edit below this line at your own risk !!!!!!!!!!!!!!!!!!!!!!!*/
 
 //on page load call tb_init
-$(document).ready(function(){   
+$(document).ready(function(){
 	tb_init('a.thickbox, area.thickbox, input.thickbox');//pass where to apply thickbox
 	imgLoader = new Image();// preload image
 	imgLoader.src = tb_pathToImage;
@@ -58,7 +58,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 		var baseURL;
 	   if(url.indexOf("?")!==-1){ //ff there is a query string involved
 			baseURL = url.substr(0, url.indexOf("?"));
-	   }else{ 
+	   }else{
 	   		baseURL = url;
 	   }
 	   
@@ -66,7 +66,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 	   var urlType = baseURL.toLowerCase().match(urlString);
 
 		if(urlType == '.jpg' || urlType == '.jpeg' || urlType == '.png' || urlType == '.gif' || urlType == '.bmp'){//code to show images
-				
+			
 			TB_PrevCaption = "";
 			TB_PrevURL = "";
 			TB_PrevHTML = "";
@@ -79,7 +79,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 				TB_TempArray = $("a[@rel="+imageGroup+"]").get();
 				for (TB_Counter = 0; ((TB_Counter < TB_TempArray.length) && (TB_NextHTML === "")); TB_Counter++) {
 					var urlTypeTemp = TB_TempArray[TB_Counter].href.toLowerCase().match(urlString);
-						if (!(TB_TempArray[TB_Counter].href == url)) {						
+						if (!(TB_TempArray[TB_Counter].href == url)) {
 							if (TB_FoundURL) {
 								TB_NextCaption = TB_TempArray[TB_Counter].title;
 								TB_NextURL = TB_TempArray[TB_Counter].href;
@@ -91,15 +91,15 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 							}
 						} else {
 							TB_FoundURL = true;
-							TB_imageCount = "Image " + (TB_Counter + 1) +" of "+ (TB_TempArray.length);											
+							TB_imageCount = "Image " + (TB_Counter + 1) +" of "+ (TB_TempArray.length);
 						}
 				}
 			}
 
 			imgPreloader = new Image();
-			imgPreloader.onload = function(){		
+			imgPreloader.onload = function(){
 			imgPreloader.onload = null;
-				
+			
 			// Resizing large images - orginal by Christian Montoya edited by me.
 			var pagesize = tb_getPageSize();
 			var x = pagesize[0] - 150;
@@ -107,17 +107,17 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 			var imageWidth = imgPreloader.width;
 			var imageHeight = imgPreloader.height;
 			if (imageWidth > x) {
-				imageHeight = imageHeight * (x / imageWidth); 
-				imageWidth = x; 
-				if (imageHeight > y) { 
-					imageWidth = imageWidth * (y / imageHeight); 
-					imageHeight = y; 
+				imageHeight = imageHeight * (x / imageWidth);
+				imageWidth = x;
+				if (imageHeight > y) {
+					imageWidth = imageWidth * (y / imageHeight);
+					imageHeight = y;
 				}
-			} else if (imageHeight > y) { 
-				imageWidth = imageWidth * (y / imageHeight); 
-				imageHeight = y; 
-				if (imageWidth > x) { 
-					imageHeight = imageHeight * (x / imageWidth); 
+			} else if (imageHeight > y) {
+				imageWidth = imageWidth * (y / imageHeight);
+				imageHeight = y;
+				if (imageWidth > x) {
+					imageHeight = imageHeight * (x / imageWidth);
 					imageWidth = x;
 				}
 			}
@@ -125,7 +125,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 			
 			TB_WIDTH = imageWidth + 30;
 			TB_HEIGHT = imageHeight + 60;
-			$("#TB_window").append("<a href='' id='TB_ImageOff' title='Close'><img id='TB_Image' src='"+url+"' width='"+imageWidth+"' height='"+imageHeight+"' alt='"+caption+"'/></a>" + "<div id='TB_caption'>"+caption+"<div id='TB_secondLine'>" + TB_imageCount + TB_PrevHTML + TB_NextHTML + "</div></div><div id='TB_closeWindow'><a href='#' id='TB_closeWindowButton' title='Close'>close</a> or Esc Key</div>"); 		
+			$("#TB_window").append("<a href='' id='TB_ImageOff' title='Close'><img id='TB_Image' src='"+url+"' width='"+imageWidth+"' height='"+imageHeight+"' alt='"+caption+"'/></a>" + "<div id='TB_caption'>"+caption+"<div id='TB_secondLine'>" + TB_imageCount + TB_PrevHTML + TB_NextHTML + "</div></div><div id='TB_closeWindow'><a href='#' id='TB_closeWindowButton' title='Close'>close</a> or Esc Key</div>");
 			
 			$("#TB_closeWindowButton").click(tb_remove);
 			
@@ -135,23 +135,23 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 					$("#TB_window").remove();
 					$("body").append("<div id='TB_window'></div>");
 					tb_show(TB_PrevCaption, TB_PrevURL, imageGroup);
-					return false;	
+					return false;
 				}
 				$("#TB_prev").click(goPrev);
 			}
 			
-			if (!(TB_NextHTML === "")) {		
+			if (!(TB_NextHTML === "")) {
 				function goNext(){
 					$("#TB_window").remove();
 					$("body").append("<div id='TB_window'></div>");
-					tb_show(TB_NextCaption, TB_NextURL, imageGroup);				
-					return false;	
+					tb_show(TB_NextCaption, TB_NextURL, imageGroup);
+					return false;
 				}
 				$("#TB_next").click(goNext);
 				
 			}
 
-			document.onkeydown = function(e){ 	
+			document.onkeydown = function(e){
 				if (e == null) { // ie
 					keycode = event.keyCode;
 				} else { // mozilla
@@ -169,7 +169,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 						document.onkeydown = "";
 						goPrev();
 					}
-				}	
+				}
 			};
 			
 			tb_position();
@@ -189,7 +189,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 			ajaxContentW = TB_WIDTH - 30;
 			ajaxContentH = TB_HEIGHT - 45;
 			
-			if(url.indexOf('TB_iframe') != -1){// either iframe or ajax window		
+			if(url.indexOf('TB_iframe') != -1){// either iframe or ajax window
 					urlNoQuery = url.split('TB_');
 					$("#TB_iframeContent").remove();
 					if(params['modal'] != "true"){//iframe no modal
@@ -204,7 +204,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 						$("#TB_window").append("<div id='TB_title'><div id='TB_ajaxWindowTitle'>"+caption+"</div><div id='TB_closeAjaxWindow'><a href='#' id='TB_closeWindowButton'>close</a> or Esc Key</div></div><div id='TB_ajaxContent' style='width:"+ajaxContentW+"px;height:"+ajaxContentH+"px'></div>");
 						}else{//ajax modal
 						$("#TB_overlay").unbind();
-						$("#TB_window").append("<div id='TB_ajaxContent' class='TB_modal' style='width:"+ajaxContentW+"px;height:"+ajaxContentH+"px;'></div>");	
+						$("#TB_window").append("<div id='TB_ajaxContent' class='TB_modal' style='width:"+ajaxContentW+"px;height:"+ajaxContentH+"px;'></div>");
 						}
 					}else{//this means the window is already up, we are just loading new content via ajax
 						$("#TB_ajaxContent")[0].style.width = ajaxContentW +"px";
@@ -242,7 +242,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 		}
 
 		if(!params['modal']){
-			document.onkeyup = function(e){ 	
+			document.onkeyup = function(e){
 				if (e == null) { // ie
 					keycode = event.keyCode;
 				} else { // mozilla
@@ -250,7 +250,7 @@ function tb_show(caption, url, imageGroup) {//function called when the user clic
 				}
 				if(keycode == 27){ // close
 					tb_remove();
-				}	
+				}
 			};
 		}
 		
