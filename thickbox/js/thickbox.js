@@ -31,18 +31,9 @@ function tb_init(domChunk){
 function tb_show(caption, url, imageGroup) {//function called when the user clicks on a thickbox link
 
 	try {
-		if (typeof document.body.style.maxHeight === "undefined") {//if IE 6
-			$("body","html").css({height: "100%", width: "100%"});
-			$("html").css("overflow","hidden");
-			if (document.getElementById("TB_HideSelect") === null) {//iframe to hide select elements in ie6
-				$("body").append("<iframe id='TB_HideSelect'></iframe><div id='TB_overlay'></div><div id='TB_window'></div>");
-				$("#TB_overlay").click(tb_remove);
-			}
-		}else{//all others
-			if(document.getElementById("TB_overlay") === null){
-				$("body").append("<div id='TB_overlay'></div><div id='TB_window'></div>");
-				$("#TB_overlay").click(tb_remove);
-			}
+		if(document.getElementById("TB_overlay") === null){
+			$("body").append("<div id='TB_overlay'></div><div id='TB_window'></div>");
+			$("#TB_overlay").click(tb_remove);
 		}
 		
 		if(tb_detectMacXFF()){
@@ -270,10 +261,6 @@ function tb_remove() {
 	$("#TB_closeWindowButton").unbind("click");
 	$("#TB_window").fadeOut("fast",function(){$('#TB_window,#TB_overlay,#TB_HideSelect').trigger("unload").unbind().remove();});
 	$("#TB_load").remove();
-	if (typeof document.body.style.maxHeight == "undefined") {//if IE 6
-		$("body","html").css({height: "auto", width: "auto"});
-		$("html").css("overflow","");
-	}
 	document.onkeydown = "";
 	document.onkeyup = "";
 	return false;
@@ -281,9 +268,6 @@ function tb_remove() {
 
 function tb_position() {
 $("#TB_window").css({marginLeft: '-' + parseInt((TB_WIDTH / 2),10) + 'px', width: TB_WIDTH + 'px'});
-	if ( !(jQuery.browser.msie && jQuery.browser.version < 7)) { // take away IE6
-		$("#TB_window").css({marginTop: '-' + parseInt((TB_HEIGHT / 2),10) + 'px'});
-	}
 }
 
 function tb_parseQuery ( query ) {
