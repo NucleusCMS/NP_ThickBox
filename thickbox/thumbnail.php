@@ -23,16 +23,25 @@ if ($media_path && is_writable($media_path)) {
 }
 $msize = intval(getvar('size'));
 if (!$msize) $msize = 100;
+$image_file = getvar('image');
+$cache_key = md5($image_file . '_' . $msize);
+if(is_file($cache_path . $cache_key)) {
+    $ext = strtolower(end(explode('.', $image_file)));
+    if     ($ext==='jpg') header("Content-type: image/jpeg");
+    elseif ($ext==='gif') header("Content-type: image/gif");
+    elseif ($ext==='bmp') header("Content-type: image/wbmp");
+    readfile($cache_path . $cache_key);
+    exit;
+}
 define('MAX_WIDTH', $msize);
 define('MAX_HEIGHT', $msize);
 
 
 # Get image location
-$image_file = str_replace('..', '', getvar('image'));
+if(strpos($image_file,'..')!==false) exit('illegal file name');
 $local_file = $media_path.$image_file;
 if (is_file($local_file) && $try_cache) {
-    $cache_filename = $msize.'_'.filemtime($local_file).'-'.str_replace(array('/','\\'),array('_','_'),$image_file);
-    $cache_file = $cache_path.$cache_filename;
+    $cache_file = $cache_path . $cache_key;
     if (is_file($cache_file)) {
         $use_cache = 1;
     }
