@@ -225,4 +225,3 @@ class NP_ThickBox extends NucleusPlugin {
         } //foreach ($parts as $part)
     }
 }
-?>
