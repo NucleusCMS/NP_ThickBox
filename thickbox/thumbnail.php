@@ -5,11 +5,13 @@ $use_cache = 0;
 $make_cache = 0;
 include ('../../../config.php');
 global $manager;
-if ($manager->pluginInstalled($plugname)) {
-    $plugin =& $manager->getPlugin($plugname);
-	$media_path = $plugin->getOption('imagePath');
-	$cache_path = $media_path."thumb_cache";
-}
+
+if (!$manager->pluginInstalled($plugname)) exit;
+
+$plugin =& $manager->getPlugin($plugname);
+$media_path = $plugin->getOption('imagePath');
+$cache_path = $media_path."thumb_cache";
+
 if ($media_path && is_writable($media_path)) {
 	if (!file_exists($cache_path)) {
 		mkdir($cache_path,0777);
@@ -19,31 +21,27 @@ if ($media_path && is_writable($media_path)) {
 		$try_cache = 1;
 	}
 }
-$msize = intval($_REQUEST['size']);
+$msize = intval(getvar('size'));
 if (!$msize) $msize = 100;
 define('MAX_WIDTH', $msize);
 define('MAX_HEIGHT', $msize);
 
 
 # Get image location
-$image_file = str_replace('..', '', $_GET['image']);
+$image_file = str_replace('..', '', getvar('image'));
 $local_file = $media_path.$image_file;
-if (file_exists($local_file) && $try_cache) {
+if (is_file($local_file) && $try_cache) {
 	$cache_filename = $msize.'_'.filemtime($local_file).'-'.str_replace(array('/','\\'),array('_','_'),$image_file);
 	$cache_file = $cache_path.$cache_filename;
-	if (file_exists($cache_file)) {
+	if (is_file($cache_file)) {
 		$use_cache = 1;
 	}
 	else {
 		$make_cache = 1;
 	}
 }
-if (!empty($_GET['path'])) {
-	$image_path = $_GET['path'] . "$image_file";
-}
-else {
-	$image_path = $image_file;
-}
+
+$image_path = $local_file;
 
 
 # Load image
@@ -162,5 +160,3 @@ switch ($imgtype) {
 		imagewbmp($img);
 		break;
 }
-
-?>

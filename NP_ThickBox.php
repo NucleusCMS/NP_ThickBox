@@ -32,9 +32,9 @@
 class NP_ThickBox extends NucleusPlugin {
 
 	function getName() {return 'ThickBox';}
-	function getAuthor()  {return 'Yamamoto, Frank Truscott, based on work by Seventoes';}
+	function getAuthor()  {return 'Frank Truscott, based on work by Seventoes';}
 	function getURL(){return 'http://revcetera.com/ftruscot/';}
-	function getVersion() {return '1.4';}
+	function getVersion() {return '1.37';}
 	function getDescription() {
 		return 'Simple plugin to enable ThickBox on Nucleus Blogs';
 	}
@@ -57,9 +57,6 @@ class NP_ThickBox extends NucleusPlugin {
 		global $CONF, $DIR_MEDIA;
 		$this->createOption('imageURL','URL to your image folder (Always have trailing /)', 'text', $CONF['MediaURL']);
         $this->createOption('imagePath','Absolute filesytem path to your image folder (Always have trailing /)', 'text', $DIR_MEDIA);
-        $this->createOption('relPath','Relative filesytem path to your image folder (Always have trailing /)', 'text', '../../../media/');
-        $this->createOption('whichPath', 'Which path should be used by thumbnail.php to find image files?','select', 'URL', 'URL|URL|Full|Full|Relative|Relative');
-        $this->createOption('rootDir','URL to your thickbox root directory (Always have trailing /)', 'text', $this->getAdminURL());
 		$this->createOption('defaultCaption','Text to be displayed if no caption is provided (set to "TB_imageName" to display the image\'s filename)','text','TB_imageName');
 		$this->createOption('thumbnails','Do you want to display thumbnails? If not, the caption will be displayed.','yesno','yes');
 		$this->createOption('maxSize','What is the maximum size for thumbnails? The largest side of the image will be reduced down to this size in pixels.', 'text', '150');
@@ -77,8 +74,7 @@ class NP_ThickBox extends NucleusPlugin {
         else $gbdata = implode('|',$params);
 
         if ($gbdata == '') {
-            if ($this->getOption('rootDir')) $tb_root = $this->getOption('rootDir');
-            else $tb_root = $this->getAdminURL();
+            $tb_root = $this->getAdminURL();
             echo '<script type="text/javascript">'."\n";
             echo 'var TB_ROOT_DIR = "'.$tb_root.'"';
             echo '</script>'."\n";
@@ -93,22 +89,6 @@ class NP_ThickBox extends NucleusPlugin {
 	}
 
 	function parse($matches) {
-        $whichpath = $this->getOption('whichPath');
-        switch ($whichpath) {
-            case 'Full':
-                $thumb_path = $this->getOption('imagePath');
-            break;
-            case 'Relative':
-                $thumb_path = $this->getOption('relPath');
-            break;
-            default:
-                $thumb_path = $this->getOption('imageURL');
-            break;
-        }
-        $media_dir = $this->getOption('imagePath');
-		$media_url = $this->getOption('imageURL');
-        $media_reldir = $this->getOption('relPath');
-
 		$sections = explode("|", $matches[1]);
 		
 		if (strpos($sections[0],'(') !== false) {
@@ -123,6 +103,7 @@ class NP_ThickBox extends NucleusPlugin {
 		if (substr($sections[0],0,1) == "/") $sections[0] = substr($sections[0],1);
 		if (substr($sections[0],-1) == "/") $sections[0] = substr($sections[0],0,strlen($sections[0]) -1);
 		$imagename = $sections[0];
+		$media_dir = $this->getOption('imagePath');
         if (is_dir($media_dir.$imagename)) {
             $dh  = opendir($media_dir.$imagename);
             while (false !== ($filename = readdir($dh))) {
@@ -176,7 +157,8 @@ class NP_ThickBox extends NucleusPlugin {
 				}
 				
                 if ($useThumbs == 'yes') {
-                    $r .= '<img src="'.$this->getAdminURL().'thumbnail.php?path='.$thumb_path.'&amp;image='.$image.'&amp;size='.$this->getOption('maxSize').'" alt="'.$caption.'" border="0" />';
+                    $base_path = $this->getOption('imagePath');
+                    $r .= '<img src="'.$this->getAdminURL().'thumbnail.php?image='.$image.'&amp;size='.$this->getOption('maxSize').'" alt="'.$caption.'" border="0" />';
                 } else {
                     $r .= $caption;
                 }
