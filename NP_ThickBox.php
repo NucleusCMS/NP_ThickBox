@@ -32,9 +32,9 @@
 class NP_ThickBox extends NucleusPlugin {
 
     function getName() {return 'ThickBox';}
-    function getAuthor()  {return 'Frank Truscott, based on work by Seventoes';}
+    function getAuthor()  {return 'Yamamoto, Frank Truscott, based on work by Seventoes';}
     function getURL(){return 'http://revcetera.com/ftruscot/';}
-    function getVersion() {return '1.37';}
+    function getVersion() {return '1.4';}
     function getDescription() {
         return 'Simple plugin to enable ThickBox on Nucleus Blogs';
     }
@@ -141,7 +141,7 @@ class NP_ThickBox extends NucleusPlugin {
                     $r .= '<a href="'.$image.'" class="thickbox" rel="'.$reltext.'" title="'.$caption.'">';
                 }
                 if ($useThumbs == 'yes') {
-                    $r .='<img src="'.$this->getAdminURL().'thumbnail.php?image='.$image.'&amp;size='.$this->getOption('maxSize').'" alt="'.$caption.'" border="0" />';
+                    $r .= '<img src="'.$this->getAdminURL().'tt.php?src='.$image.'&amp;w='.$this->getOption('maxSize').'" alt="'.$caption.'" border="0" />';
                 } else {
                     $r .= $caption;
                 }
@@ -158,7 +158,7 @@ class NP_ThickBox extends NucleusPlugin {
                 
                 if ($useThumbs == 'yes') {
                     $base_path = $this->getOption('imagePath');
-                    $r .= '<img src="'.$this->getAdminURL().'thumbnail.php?image='.$image.'&amp;size='.$this->getOption('maxSize').'" alt="'.$caption.'" border="0" />';
+                    $r .= '<img src="'.$this->getAdminURL().'tt.php?src='.$this->getOption('imageURL').$image.'&amp;w='.$this->getOption('maxSize').'" alt="'.$caption.'" border="0" />';
                 } else {
                     $r .= $caption;
                 }
